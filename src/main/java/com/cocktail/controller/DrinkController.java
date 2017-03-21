@@ -1,5 +1,6 @@
 package com.cocktail.controller;
 
+import com.cocktail.DTO.DrinkDTO;
 import com.cocktail.entity.Cocktail;
 import com.cocktail.entity.Drink;
 import com.cocktail.service.DrinkService;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/drink")
+@RequestMapping("/drinks")
 public class DrinkController {
 
     @Autowired
@@ -20,17 +21,17 @@ public class DrinkController {
     private final Logger LOGGER = Logger.getLogger(CocktailController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public Drink createDrink (HttpServletResponse httpServletResponse, @RequestBody Drink drink){
+    public DrinkDTO createDrink (HttpServletResponse httpServletResponse, @RequestBody DrinkDTO drinkDTO){
         LOGGER.info("New Drink created.");
-        boolean insertState = this.drinkService.insertDrink(drink);
-        return insertState ? drink : null;
+        boolean insertState = this.drinkService.insertDrink(drinkDTO);
+        return insertState ? drinkDTO : null;
     }
 
-    @RequestMapping(value = "/drinks", method = RequestMethod.GET)
-    public Set<Drink> getDrinks (HttpServletResponse httpServletResponse){
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public Set<DrinkDTO> getDrinks (HttpServletResponse httpServletResponse){
         LOGGER.info("Get drinks.");
-        Set<Drink> drinks = this.drinkService.getDrinks();
-        return drinks;
+        Set<DrinkDTO> drinkDTOs = this.drinkService.getDrinks();
+        return drinkDTOs;
     }
 
 }

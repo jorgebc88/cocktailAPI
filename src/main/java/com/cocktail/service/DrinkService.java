@@ -1,5 +1,7 @@
 package com.cocktail.service;
 
+import com.cocktail.DTO.DrinkDTO;
+import com.cocktail.Util.CocktailUtils;
 import com.cocktail.entity.Cocktail;
 import com.cocktail.entity.Drink;
 import com.cocktail.repository.DrinkRepository;
@@ -15,8 +17,12 @@ public class DrinkService {
     @Autowired
     private DrinkRepository drinkRepository;
 
-    public boolean insertDrink(Drink drink) {
+    @Autowired
+    private CocktailUtils cocktailUtils;
+
+    public boolean insertDrink(DrinkDTO drinkDTO) {
         try {
+            Drink drink = cocktailUtils.convertDrinkDTO(drinkDTO);
             this.drinkRepository.save(drink);
         }catch (Exception e){
             return false;
@@ -24,11 +30,12 @@ public class DrinkService {
         return true;
     }
 
-    public Set<Drink> getDrinks() {
+    public Set<DrinkDTO> getDrinks() {
         Iterable<Drink> drinkIterable = this.drinkRepository.findAll();
         Set<Drink> drinks = new HashSet<>();
         drinkIterable.iterator().forEachRemaining(drinks::add);
-        return drinks;
+        Set<DrinkDTO> drinkDTOs = cocktailUtils.ConvertToDrinksDTO(drinks);
+        return drinkDTOs;
     }
 
 }

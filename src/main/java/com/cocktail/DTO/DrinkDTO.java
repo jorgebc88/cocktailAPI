@@ -1,11 +1,14 @@
-package com.cocktail.entity;
+package com.cocktail.DTO;
+
+import com.cocktail.entity.Ingredient;
 
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity
-@Table(name="drink")
-public class Drink {
+/**
+ * Created by jorge.bravo on 21/03/2017.
+ */
+public class DrinkDTO {
     private long drinkId;
 
     private String drinkName;
@@ -16,11 +19,8 @@ public class Drink {
 
     private String bottleMeasure;
 
-    private Set<Ingredient> ingredients;
+    private Set<IngredientDTO> ingredients;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "drink_id", unique = true, nullable = false)
     public long getDrinkId() {
         return drinkId;
     }
@@ -45,12 +45,11 @@ public class Drink {
         this.quantityBottle = quantityBottle;
     }
 
-    @OneToMany(mappedBy = "drink", fetch = FetchType.EAGER)
-    public Set<Ingredient> getIngredients() {
+    public Set<IngredientDTO> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(Set<Ingredient> ingredients) {
+    public void setIngredients(Set<IngredientDTO> ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -69,4 +68,5 @@ public class Drink {
     public void setDrinkBrand(String drinkBrand) {
         this.drinkBrand = drinkBrand;
     }
+
 }

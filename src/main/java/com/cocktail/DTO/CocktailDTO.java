@@ -1,26 +1,19 @@
-package com.cocktail.entity;
+package com.cocktail.DTO;
 
-
-import javax.persistence.*;
 import java.util.Set;
 
-@Entity
-@Table(name="cocktail")
-public class Cocktail {
+public class CocktailDTO {
 
     private long cocktailId;
 
     private String cocktailName;
 
-    private Set<Ingredient> ingredients;
+    private Set<IngredientDTO> ingredients;
 
     private String cocktailType;
 
     private String glassType;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cocktail_id", unique = true, nullable = false)
     public long getCocktailId() {
         return cocktailId;
     }
@@ -37,12 +30,11 @@ public class Cocktail {
         this.cocktailName = cocktailName;
     }
 
-    @OneToMany(mappedBy = "cocktail", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    public Set<Ingredient> getIngredients() {
+    public Set<IngredientDTO> getIngredients() {
         return this.ingredients;
     }
 
-    public void setIngredients(Set<Ingredient> ingredients) {
+    public void setIngredients(Set<IngredientDTO> ingredients) {
         this.ingredients = ingredients;
     }
 

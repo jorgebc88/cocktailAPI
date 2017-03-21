@@ -16,6 +16,7 @@ public class Ingredient implements Serializable {
     private long quantity;
 
     @Id
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cocktail_id", nullable = false)
     public Cocktail getCocktail() {
@@ -27,7 +28,6 @@ public class Ingredient implements Serializable {
     }
 
     @Id
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "drink_id", nullable = false)
     public Drink getDrink() {

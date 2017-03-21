@@ -1,17 +1,21 @@
 package com.cocktail.controller;
 
+import com.cocktail.DTO.CocktailDTO;
+import com.cocktail.Util.CocktailUtils;
 import com.cocktail.entity.Cocktail;
 import com.cocktail.entity.Ingredient;
 import com.cocktail.service.CocktailService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/cocktail")
+@RequestMapping("/cocktails")
 public class CocktailController {
 
     @Autowired
@@ -20,20 +24,18 @@ public class CocktailController {
     private final Logger LOGGER = Logger.getLogger(CocktailController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public Cocktail createCocktail (HttpServletResponse httpServletResponse, @RequestBody Cocktail cocktail){
+    public CocktailDTO createCocktail (HttpServletResponse httpServletResponse, @RequestBody CocktailDTO cocktailDTO){
         LOGGER.info("New cocktail created.");
-        for(Ingredient ingredient : cocktail.getIngredients()){
-            ingredient.setCocktail(cocktail);
-        }
-        boolean insertState = this.cocktailService.insertCocktail(cocktail);
-        return insertState ? cocktail : null;
+        boolean insertState = this.cocktailService.insertCocktail(cocktailDTO);
+        return insertState ? cocktailDTO : null;
     }
 
-    @RequestMapping(value = "/cocktails", method = RequestMethod.GET)
-    public Set<Cocktail> getCocktails (HttpServletResponse httpServletResponse){
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ResponseEntity<Set<CocktailDTO>> getCocktails (HttpServletResponse httpServletResponse){
         LOGGER.info("Get cocktails.");
-        Set<Cocktail> cocktails = this.cocktailService.getCocktails();
-        return cocktails;
+        Set<CocktailDTO> cocktails = this.cocktailService.getCocktails();
+//        return cocktails;
+        return new ResponseEntity<Set<CocktailDTO>>(cocktails, HttpStatus.OK);
     }
 
 }

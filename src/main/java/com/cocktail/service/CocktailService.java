@@ -1,5 +1,7 @@
 package com.cocktail.service;
 
+import com.cocktail.DTO.CocktailDTO;
+import com.cocktail.Util.CocktailUtils;
 import com.cocktail.entity.Cocktail;
 import com.cocktail.repository.CocktailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,12 @@ public class CocktailService {
     @Autowired
     private CocktailRepository cocktailRepository;
 
-    public boolean insertCocktail(Cocktail cocktail) {
+    @Autowired
+    private CocktailUtils cocktailUtils;
+
+    public boolean insertCocktail(CocktailDTO cocktailDTO) {
         try {
+            Cocktail cocktail = cocktailUtils.convertCocktailDTO(cocktailDTO);
             this.cocktailRepository.save(cocktail);
         }catch (Exception e){
             return false;
@@ -23,11 +29,11 @@ public class CocktailService {
         return true;
     }
 
-    public Set<Cocktail> getCocktails() {
+    public Set<CocktailDTO> getCocktails() {
         Iterable<Cocktail> CocktailsIterable = this.cocktailRepository.findAll();
         Set<Cocktail> cocktails = new HashSet<>();
         CocktailsIterable.iterator().forEachRemaining(cocktails::add);
-        return cocktails;
+        return cocktailUtils.ConvertToCocktailsDTO(cocktails);
     }
 
 
