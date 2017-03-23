@@ -34,4 +34,11 @@ public class DrinkController {
         return drinkDTOs;
     }
 
+    @RequestMapping(value = "/{drinkId}", method = RequestMethod.GET)
+    public DrinkDTO getDrinkById (HttpServletResponse httpServletResponse, @PathVariable("drinkId") Long drinkId){
+        LOGGER.info("Get drink by id.");
+        DrinkDTO drinkDTO = this.drinkService.getDrinkById(drinkId);
+        return drinkDTO;
+    }
+
 }

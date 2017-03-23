@@ -1,9 +1,6 @@
 package com.cocktail.controller;
 
 import com.cocktail.DTO.CocktailDTO;
-import com.cocktail.Util.CocktailUtils;
-import com.cocktail.entity.Cocktail;
-import com.cocktail.entity.Ingredient;
 import com.cocktail.service.CocktailService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +21,17 @@ public class CocktailController {
     private final Logger LOGGER = Logger.getLogger(CocktailController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public CocktailDTO createCocktail (HttpServletResponse httpServletResponse, @RequestBody CocktailDTO cocktailDTO){
+    public ResponseEntity<CocktailDTO> createCocktail (HttpServletResponse httpServletResponse, @RequestBody CocktailDTO cocktailDTO){
         LOGGER.info("New cocktail created.");
         boolean insertState = this.cocktailService.insertCocktail(cocktailDTO);
-        return insertState ? cocktailDTO : null;
+        return insertState ? new ResponseEntity<CocktailDTO>(cocktailDTO, HttpStatus.OK) :
+                new ResponseEntity<CocktailDTO>(cocktailDTO, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<Set<CocktailDTO>> getCocktails (HttpServletResponse httpServletResponse){
         LOGGER.info("Get cocktails.");
         Set<CocktailDTO> cocktails = this.cocktailService.getCocktails();
-//        return cocktails;
         return new ResponseEntity<Set<CocktailDTO>>(cocktails, HttpStatus.OK);
     }
 

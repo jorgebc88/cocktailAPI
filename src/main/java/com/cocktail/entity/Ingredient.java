@@ -15,6 +15,8 @@ public class Ingredient implements Serializable {
 
     private long quantity;
 
+    private String measure;
+
     @Id
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
@@ -45,5 +47,14 @@ public class Ingredient implements Serializable {
 
     public void setQuantity(long quantity) {
         this.quantity = quantity;
+    }
+
+    @Column(name = "measure")
+    public String getMeasure() {
+        return measure;
+    }
+
+    public void setMeasure(String measure) {
+        this.measure = measure;
     }
 }

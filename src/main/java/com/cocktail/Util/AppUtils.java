@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Component
-public class CocktailUtils {
+public class AppUtils {
 
     @Autowired
     private DrinkRepository drinkRepository;
@@ -34,7 +34,7 @@ public class CocktailUtils {
             Ingredient ingredient = new Ingredient();
             ingredient.setQuantity(ingredientDTO.getQuantity());
             ingredient.setCocktail(cocktail);
-            Drink drink = drinkRepository.findOne(ingredientDTO.getDrinkId());
+            Drink drink = drinkRepository.findByDrinkName(ingredientDTO.getDrinkName());
             drink.setIngredients(null);
             ingredient.setDrink(drink);
             ingredients.add(ingredient);
@@ -43,22 +43,25 @@ public class CocktailUtils {
         return cocktail;
     }
 
-    public Set<CocktailDTO> ConvertToCocktailsDTO(Set<Cocktail> cocktails) {
+    public Set<CocktailDTO> convertToCocktailsDTO(Set<Cocktail> cocktails) {
         Set<CocktailDTO> cocktailDTOS = new HashSet<>();
         for(Cocktail cocktail : cocktails){
-            CocktailDTO cocktailDTO = new CocktailDTO();
-            cocktailDTO.setCocktailId(cocktail.getCocktailId());
-            cocktailDTO.setGlassType(cocktail.getGlassType());
-            cocktailDTO.setCocktailType(cocktail.getCocktailType());
-            cocktailDTO.setCocktailId(cocktail.getCocktailId());
-            cocktailDTO.setCocktailName(cocktail.getCocktailName());
-            cocktailDTO.setIngredients(this.convertToIngredientDTO(cocktail.getIngredients()));
-
+            CocktailDTO cocktailDTO = this.convertToCocktailDTO(cocktail);
             cocktailDTOS.add(cocktailDTO);
         }
         return cocktailDTOS;
     }
 
+    public CocktailDTO convertToCocktailDTO(Cocktail cocktail){
+        CocktailDTO cocktailDTO = new CocktailDTO();
+        cocktailDTO.setCocktailId(cocktail.getCocktailId());
+        cocktailDTO.setGlassType(cocktail.getGlassType());
+        cocktailDTO.setCocktailType(cocktail.getCocktailType());
+        cocktailDTO.setCocktailId(cocktail.getCocktailId());
+        cocktailDTO.setCocktailName(cocktail.getCocktailName());
+        cocktailDTO.setIngredients(this.convertToIngredientDTO(cocktail.getIngredients()));
+        return cocktailDTO;
+    }
     // Drink part
     public Drink convertDrinkDTO(DrinkDTO drinkDTO) {
         Drink drink = new Drink();
@@ -73,7 +76,7 @@ public class CocktailUtils {
             Ingredient ingredient = new Ingredient();
             ingredient.setQuantity(ingredientDTO.getQuantity());
             ingredient.setDrink(drink);
-            Cocktail cocktail = cocktailRepository.findOne(ingredientDTO.getDrinkId());
+            Cocktail cocktail = cocktailRepository.findByCocktailName(ingredientDTO.getCocktailName());
             cocktail.setIngredients(null);
             ingredient.setCocktail(cocktail);
             ingredients.add(ingredient);
@@ -86,16 +89,21 @@ public class CocktailUtils {
     public Set<DrinkDTO> ConvertToDrinksDTO(Set<Drink> drinks){
         Set<DrinkDTO> drinkDTOs = new HashSet<>();
         for(Drink drink: drinks){
-            DrinkDTO drinkDTO = new DrinkDTO();
-            drinkDTO.setDrinkId(drink.getDrinkId());
-            drinkDTO.setQuantityBottle(drink.getQuantityBottle());
-            drinkDTO.setDrinkName(drink.getDrinkName());
-            drinkDTO.setBottleMeasure(drink.getBottleMeasure());
-            drinkDTO.setDrinkBrand(drink.getDrinkBrand());
-            drinkDTO.setIngredients(this.convertToIngredientDTO(drink.getIngredients()));
+            DrinkDTO drinkDTO = this.convertToDrinkDTO(drink);
             drinkDTOs.add(drinkDTO);
         }
         return drinkDTOs;
+    }
+
+    public DrinkDTO convertToDrinkDTO(Drink drink){
+        DrinkDTO drinkDTO = new DrinkDTO();
+        drinkDTO.setDrinkId(drink.getDrinkId());
+        drinkDTO.setQuantityBottle(drink.getQuantityBottle());
+        drinkDTO.setDrinkName(drink.getDrinkName());
+        drinkDTO.setBottleMeasure(drink.getBottleMeasure());
+        drinkDTO.setDrinkBrand(drink.getDrinkBrand());
+        drinkDTO.setIngredients(this.convertToIngredientDTO(drink.getIngredients()));
+        return drinkDTO;
     }
 
     //Ingredient
@@ -103,8 +111,8 @@ public class CocktailUtils {
         Set<IngredientDTO> ingredientDTOS = new HashSet<>();
         for(Ingredient ingredient : ingredients) {
             IngredientDTO ingredientDTO = new IngredientDTO();
-            ingredientDTO.setCocktailId(ingredient.getCocktail().getCocktailId());
-            ingredientDTO.setDrinkId(ingredient.getDrink().getDrinkId());
+            ingredientDTO.setCocktailName(ingredient.getCocktail().getCocktailName());
+            ingredientDTO.setDrinkName(ingredient.getDrink().getDrinkName());
             ingredientDTO.setQuantity(ingredient.getQuantity());
             ingredientDTOS.add(ingredientDTO);
         }

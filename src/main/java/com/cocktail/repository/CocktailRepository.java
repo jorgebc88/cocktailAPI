@@ -5,4 +5,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface CocktailRepository extends CrudRepository<Cocktail, Long> {
 
+    public Cocktail findByCocktailName(String cocktailName);
+
 }

@@ -1,26 +1,28 @@
 package com.cocktail.DTO;
 
 public class IngredientDTO {
-    private Long cocktailId;
+    private String cocktailName;
 
-    private Long drinkId;
+    private String drinkName;
 
     private long quantity;
 
-    public Long getCocktailId() {
-        return this.cocktailId;
+    private String measure;
+
+    public String getCocktailName() {
+        return this.cocktailName;
     }
 
-    public void setCocktailId(Long cocktailId) {
-        this.cocktailId = cocktailId;
+    public void setCocktailName(String cocktailName) {
+        this.cocktailName = cocktailName;
     }
 
-    public Long getDrinkId() {
-        return this.drinkId;
+    public String getDrinkName() {
+        return this.drinkName;
     }
 
-    public void setDrinkId(Long drinkId) {
-        this.drinkId = drinkId;
+    public void setDrinkName(String drinkName) {
+        this.drinkName = drinkName;
     }
 
     public long getQuantity() {
@@ -31,4 +33,11 @@ public class IngredientDTO {
         this.quantity = quantity;
     }
 
+    public String getMeasure() {
+        return measure;
+    }
+
+    public void setMeasure(String measure) {
+        this.measure = measure;
+    }
 }

@@ -1,8 +1,7 @@
 package com.cocktail.service;
 
 import com.cocktail.DTO.DrinkDTO;
-import com.cocktail.Util.CocktailUtils;
-import com.cocktail.entity.Cocktail;
+import com.cocktail.Util.AppUtils;
 import com.cocktail.entity.Drink;
 import com.cocktail.repository.DrinkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +17,11 @@ public class DrinkService {
     private DrinkRepository drinkRepository;
 
     @Autowired
-    private CocktailUtils cocktailUtils;
+    private AppUtils appUtils;
 
     public boolean insertDrink(DrinkDTO drinkDTO) {
         try {
-            Drink drink = cocktailUtils.convertDrinkDTO(drinkDTO);
+            Drink drink = appUtils.convertDrinkDTO(drinkDTO);
             this.drinkRepository.save(drink);
         }catch (Exception e){
             return false;
@@ -34,8 +33,12 @@ public class DrinkService {
         Iterable<Drink> drinkIterable = this.drinkRepository.findAll();
         Set<Drink> drinks = new HashSet<>();
         drinkIterable.iterator().forEachRemaining(drinks::add);
-        Set<DrinkDTO> drinkDTOs = cocktailUtils.ConvertToDrinksDTO(drinks);
+        Set<DrinkDTO> drinkDTOs = appUtils.ConvertToDrinksDTO(drinks);
         return drinkDTOs;
     }
 
+    public DrinkDTO getDrinkById(Long drinkId) {
+        Drink drink = this.drinkRepository.findOne(drinkId);
+        return appUtils.convertToDrinkDTO(drink);
+    }
 }
