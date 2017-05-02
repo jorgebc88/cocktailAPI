@@ -36,7 +36,9 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //	@Autowired
 //	private ClientDetailsService clientDetailsService;
 //
-	@Autowired
+    private static String REALM="MY_TEST_REALM";
+
+    @Autowired
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
         .withUser("Jorge").password("123").roles("ADMIN").and()
@@ -45,7 +47,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-    http.httpBasic().and()
+    http.httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint()).and()
             .authorizeRequests()
             .antMatchers(HttpMethod.GET, "/cocktails/**").hasRole("ADMIN")
             .antMatchers(HttpMethod.POST, "/cocktails/**").hasRole("ADMIN")
@@ -53,71 +55,16 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.PATCH, "/cocktails/**").hasRole("ADMIN").and()
             .csrf().disable();
         }
+    @Bean
 
+    public CustomBasicAuthenticationEntryPoint getBasicAuthEntryPoint(){
+        return new CustomBasicAuthenticationEntryPoint();
+    }
     /* To allow Pre-flight [OPTIONS] request from browser */
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
     }
 
-//    @Bean
-//    FilterRegistrationBean corsFilter() {
-//        return new FilterRegistrationBean(new Filter() {
-//            public void doFilter(ServletRequest req, ServletResponse res,
-//                                 FilterChain chain) throws IOException, ServletException {
-//                HttpServletRequest request = (HttpServletRequest) req;
-//                HttpServletResponse response = (HttpServletResponse) res;
-//                String method = request.getMethod();
-//                // this origin value could just as easily have come from a database
-//                response.setHeader("Access-Control-Allow-Origin", "*");
-//                response.setHeader("Access-Control-Allow-Methods",
-//                        "POST, GET, PUT, OPTIONS, DELETE");
-//                response.setHeader("Access-Control-Max-Age", Long.toString(60 * 60));
-//                response.setHeader("Access-Control-Allow-Credentials", "true");
-//                response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization, Origin, Accept, Access-Control-Request-Method, Access-Control-Request-Headers");
-//                if ("OPTIONS".equals(method)) {
-//                    response.setStatus(HttpStatus.OK.value());
-//                }
-//                else {
-//                    chain.doFilter(req, res);
-//                }
-//            }
-//
-//            public void init(FilterConfig filterConfig) {
-//            }
-//
-//            public void destroy() {
-//            }
-//        });
-//    }
-//    @Override
-//    @Bean
-//    public AuthenticationManager authenticationManagerBean() throws Exception {
-//        return super.authenticationManagerBean();
-//    }
-//
-//
-//	@Bean
-//	public TokenStore tokenStore() {
-//		return new InMemoryTokenStore();
-//	}
-//
-//	@Bean
-//	@Autowired
-//	public TokenStoreUserApprovalHandler userApprovalHandler(TokenStore tokenStore){
-//		TokenStoreUserApprovalHandler handler = new TokenStoreUserApprovalHandler();
-//		handler.setTokenStore(tokenStore);
-//		handler.setRequestFactory(new DefaultOAuth2RequestFactory(clientDetailsService));
-//		handler.setClientDetailsService(clientDetailsService);
-//		return handler;
-//	}
-//
-//	@Bean
-//	@Autowired
-//	public ApprovalStore approvalStore(TokenStore tokenStore) throws Exception {
-//		TokenApprovalStore store = new TokenApprovalStore();
-//		store.setTokenStore(tokenStore);
-//		return store;
-//	}
 
 }
