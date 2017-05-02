@@ -5,6 +5,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -34,56 +35,54 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //	@Autowired
 //	private ClientDetailsService clientDetailsService;
 //
-//	@Autowired
-//    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//        .withUser("bill").password("abc123").roles("ADMIN").and()
-//        .withUser("bob").password("abc123").roles("USER");
-//    }
+	@Autowired
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+        .withUser("Jorge").password("123").roles("ADMIN").and()
+        .withUser("Ezequiel").password("123").roles("USER");
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-        .csrf().disable()
-//        .anonymous().disable()
-        .requestMatchers().antMatchers("/**")
-        .and()
-//        .authorizeRequests()
-//        .antMatchers("/**").access("hasRole('ADMIN')")
-//        .and()
-        .authorizeRequests()
-        .antMatchers("/**").permitAll();
-    }
-    @Bean
-    FilterRegistrationBean corsFilter() {
-        return new FilterRegistrationBean(new Filter() {
-            public void doFilter(ServletRequest req, ServletResponse res,
-                                 FilterChain chain) throws IOException, ServletException {
-                HttpServletRequest request = (HttpServletRequest) req;
-                HttpServletResponse response = (HttpServletResponse) res;
-                String method = request.getMethod();
-                // this origin value could just as easily have come from a database
-                response.setHeader("Access-Control-Allow-Origin", "*");
-                response.setHeader("Access-Control-Allow-Methods",
-                        "POST, GET, PUT, OPTIONS, DELETE");
-                response.setHeader("Access-Control-Max-Age", Long.toString(60 * 60));
-                response.setHeader("Access-Control-Allow-Credentials", "true");
-                response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization, Origin, Accept, Access-Control-Request-Method, Access-Control-Request-Headers");
-                if ("OPTIONS".equals(method)) {
-                    response.setStatus(HttpStatus.OK.value());
-                }
-                else {
-                    chain.doFilter(req, res);
-                }
-            }
+    http.httpBasic().and()
+            .authorizeRequests()
+            .antMatchers(HttpMethod.GET, "/cocktails/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.POST, "/cocktails/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.PUT, "/cocktails/**").hasRole("ADMIN")
+            .antMatchers(HttpMethod.PATCH, "/cocktails/**").hasRole("ADMIN").and()
+            .csrf().disable();
+        }
 
-            public void init(FilterConfig filterConfig) {
-            }
-
-            public void destroy() {
-            }
-        });
-    }
+//    @Bean
+//    FilterRegistrationBean corsFilter() {
+//        return new FilterRegistrationBean(new Filter() {
+//            public void doFilter(ServletRequest req, ServletResponse res,
+//                                 FilterChain chain) throws IOException, ServletException {
+//                HttpServletRequest request = (HttpServletRequest) req;
+//                HttpServletResponse response = (HttpServletResponse) res;
+//                String method = request.getMethod();
+//                // this origin value could just as easily have come from a database
+//                response.setHeader("Access-Control-Allow-Origin", "*");
+//                response.setHeader("Access-Control-Allow-Methods",
+//                        "POST, GET, PUT, OPTIONS, DELETE");
+//                response.setHeader("Access-Control-Max-Age", Long.toString(60 * 60));
+//                response.setHeader("Access-Control-Allow-Credentials", "true");
+//                response.setHeader("Access-Control-Allow-Headers", "X-Requested-With, Content-Type, Authorization, Origin, Accept, Access-Control-Request-Method, Access-Control-Request-Headers");
+//                if ("OPTIONS".equals(method)) {
+//                    response.setStatus(HttpStatus.OK.value());
+//                }
+//                else {
+//                    chain.doFilter(req, res);
+//                }
+//            }
+//
+//            public void init(FilterConfig filterConfig) {
+//            }
+//
+//            public void destroy() {
+//            }
+//        });
+//    }
 //    @Override
 //    @Bean
 //    public AuthenticationManager authenticationManagerBean() throws Exception {

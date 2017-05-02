@@ -1,11 +1,10 @@
 package com.cocktail.controller;
 
 import com.cocktail.DTO.DrinkDTO;
-import com.cocktail.entity.Cocktail;
-import com.cocktail.entity.Drink;
 import com.cocktail.service.DrinkService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -34,6 +33,7 @@ public class DrinkController {
         return drinkDTOs;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/{drinkId}", method = RequestMethod.GET)
     public DrinkDTO getDrinkById (HttpServletResponse httpServletResponse, @PathVariable("drinkId") Long drinkId){
         LOGGER.info("Get drink by id.");
