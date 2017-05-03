@@ -15,7 +15,7 @@ public class Ingredient implements Serializable {
 
     private long quantity;
 
-    private String measure;
+//    private String measure;
 
     @Id
     @JsonIgnore
@@ -49,12 +49,12 @@ public class Ingredient implements Serializable {
         this.quantity = quantity;
     }
 
-    @Column(name = "measure")
-    public String getMeasure() {
-        return measure;
-    }
-
-    public void setMeasure(String measure) {
-        this.measure = measure;
-    }
+//    @Column(name = "measure")
+//    public String getMeasure() {
+//        return measure;
+//    }
+//
+//    public void setMeasure(String measure) {
+//        this.measure = measure;
+//    }
 }

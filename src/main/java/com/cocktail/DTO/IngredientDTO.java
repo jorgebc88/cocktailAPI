@@ -3,6 +3,8 @@ package com.cocktail.DTO;
 public class IngredientDTO {
     private String cocktailName;
 
+    private long drinkId;
+
     private String drinkName;
 
     private long quantity;
@@ -15,6 +17,14 @@ public class IngredientDTO {
 
     public void setCocktailName(String cocktailName) {
         this.cocktailName = cocktailName;
+    }
+
+    public long getDrinkId() {
+        return this.drinkId;
+    }
+
+    public void setDrinkId(long drinkId) {
+        this.drinkId = drinkId;
     }
 
     public String getDrinkName() {

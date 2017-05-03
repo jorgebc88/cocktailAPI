@@ -34,7 +34,7 @@ public class AppUtils {
             Ingredient ingredient = new Ingredient();
             ingredient.setQuantity(ingredientDTO.getQuantity());
             ingredient.setCocktail(cocktail);
-            Drink drink = drinkRepository.findByDrinkName(ingredientDTO.getDrinkName());
+            Drink drink = drinkRepository.findOne(ingredientDTO.getDrinkId());
             drink.setIngredients(null);
             ingredient.setDrink(drink);
             ingredients.add(ingredient);
@@ -114,8 +114,10 @@ public class AppUtils {
         for(Ingredient ingredient : ingredients) {
             IngredientDTO ingredientDTO = new IngredientDTO();
             ingredientDTO.setCocktailName(ingredient.getCocktail().getCocktailName());
+            ingredientDTO.setDrinkId(ingredient.getDrink().getDrinkId());
             ingredientDTO.setDrinkName(ingredient.getDrink().getDrinkName());
             ingredientDTO.setQuantity(ingredient.getQuantity());
+            ingredientDTO.setMeasure(ingredient.getDrink().getBottleMeasure());
             ingredientDTOS.add(ingredientDTO);
         }
         return ingredientDTOS;
