@@ -72,16 +72,18 @@ public class AppUtils {
         drink.setQuantityBottle(drinkDTO.getQuantityBottle());
 
         Set<Ingredient> ingredients = new HashSet<>();
-        for(IngredientDTO ingredientDTO : drinkDTO.getIngredients()){
-            Ingredient ingredient = new Ingredient();
-            ingredient.setQuantity(ingredientDTO.getQuantity());
-            ingredient.setDrink(drink);
-            Cocktail cocktail = cocktailRepository.findByCocktailName(ingredientDTO.getCocktailName());
-            cocktail.setIngredients(null);
-            ingredient.setCocktail(cocktail);
-            ingredients.add(ingredient);
+        if(drinkDTO.getIngredients() != null) {
+            for (IngredientDTO ingredientDTO : drinkDTO.getIngredients()) {
+                Ingredient ingredient = new Ingredient();
+                ingredient.setQuantity(ingredientDTO.getQuantity());
+                ingredient.setDrink(drink);
+                Cocktail cocktail = cocktailRepository.findByCocktailName(ingredientDTO.getCocktailName());
+                cocktail.setIngredients(null);
+                ingredient.setCocktail(cocktail);
+                ingredients.add(ingredient);
+            }
+            drink.setIngredients(ingredients);
         }
-        drink.setIngredients(ingredients);
         return drink;
 
     }
