@@ -47,14 +47,14 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-    http.httpBasic().and()
+    http.httpBasic().and().anonymous().disable()
             .authorizeRequests()
             .antMatchers(HttpMethod.GET, "/cocktails/**").hasRole("ADMIN")
             .antMatchers(HttpMethod.POST, "/cocktails/**").hasRole("ADMIN")
             .antMatchers(HttpMethod.PUT, "/cocktails/**").hasRole("ADMIN")
             .antMatchers(HttpMethod.PATCH, "/cocktails/**").hasRole("ADMIN").and()
             .csrf().disable();
-        }
+    }
 //    @Bean
 //
 //    public CustomBasicAuthenticationEntryPoint getBasicAuthEntryPoint(){
