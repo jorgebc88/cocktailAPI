@@ -47,7 +47,7 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-    http.httpBasic().realmName(REALM).authenticationEntryPoint(getBasicAuthEntryPoint()).and()
+    http.httpBasic().and()
             .authorizeRequests()
             .antMatchers(HttpMethod.GET, "/cocktails/**").hasRole("ADMIN")
             .antMatchers(HttpMethod.POST, "/cocktails/**").hasRole("ADMIN")
@@ -55,16 +55,16 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.PATCH, "/cocktails/**").hasRole("ADMIN").and()
             .csrf().disable();
         }
-    @Bean
-
-    public CustomBasicAuthenticationEntryPoint getBasicAuthEntryPoint(){
-        return new CustomBasicAuthenticationEntryPoint();
-    }
-    /* To allow Pre-flight [OPTIONS] request from browser */
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
-    }
+//    @Bean
+//
+//    public CustomBasicAuthenticationEntryPoint getBasicAuthEntryPoint(){
+//        return new CustomBasicAuthenticationEntryPoint();
+//    }
+//    /* To allow Pre-flight [OPTIONS] request from browser */
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
+//    }
 
 
 }
