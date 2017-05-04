@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @SuppressWarnings("WeakerAccess")
 @Configuration
 @EnableWebSecurity
-public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class basicSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private static String REALM="MY_TEST_REALM";
 
