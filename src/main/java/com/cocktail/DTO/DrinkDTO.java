@@ -1,13 +1,7 @@
 package com.cocktail.DTO;
 
-import com.cocktail.entity.Ingredient;
-
-import javax.persistence.*;
 import java.util.Set;
 
-/**
- * Created by jorge.bravo on 21/03/2017.
- */
 public class DrinkDTO {
     private long drinkId;
 

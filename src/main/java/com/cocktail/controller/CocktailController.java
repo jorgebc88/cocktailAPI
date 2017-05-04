@@ -6,9 +6,11 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 @RestController
@@ -21,18 +23,17 @@ public class CocktailController {
     private final Logger LOGGER = Logger.getLogger(CocktailController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<CocktailDTO> createCocktail (HttpServletResponse httpServletResponse, @RequestBody CocktailDTO cocktailDTO){
+    public ResponseEntity<CocktailDTO> createCocktail(@RequestBody CocktailDTO cocktailDTO) {
         LOGGER.info("New cocktail created.");
         boolean insertState = this.cocktailService.insertCocktail(cocktailDTO);
-        return insertState ? new ResponseEntity<CocktailDTO>(cocktailDTO, HttpStatus.OK) :
-                new ResponseEntity<CocktailDTO>(cocktailDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        return insertState ? new ResponseEntity<>(cocktailDTO, HttpStatus.OK) :
+                new ResponseEntity<>(cocktailDTO, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ResponseEntity<Set<CocktailDTO>> getCocktails (HttpServletResponse httpServletResponse){
+    public ResponseEntity<Set<CocktailDTO>> getCocktails() {
         LOGGER.info("Get cocktails.");
         Set<CocktailDTO> cocktails = this.cocktailService.getCocktails();
-        return new ResponseEntity<Set<CocktailDTO>>(cocktails, HttpStatus.OK);
+        return new ResponseEntity<>(cocktails, HttpStatus.OK);
     }
-
 }

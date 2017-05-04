@@ -2,7 +2,13 @@ package com.cocktail.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
 import java.io.Serializable;
 
 @Entity
@@ -14,8 +20,6 @@ public class Ingredient implements Serializable {
     private Drink drink;
 
     private long quantity;
-
-//    private String measure;
 
     @Id
     @JsonIgnore
@@ -49,12 +53,4 @@ public class Ingredient implements Serializable {
         this.quantity = quantity;
     }
 
-//    @Column(name = "measure")
-//    public String getMeasure() {
-//        return measure;
-//    }
-//
-//    public void setMeasure(String measure) {
-//        this.measure = measure;
-//    }
 }

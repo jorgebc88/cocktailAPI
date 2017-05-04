@@ -52,7 +52,7 @@ public class AppUtils {
         return cocktailDTOS;
     }
 
-    public CocktailDTO convertToCocktailDTO(Cocktail cocktail){
+    private CocktailDTO convertToCocktailDTO(Cocktail cocktail){
         CocktailDTO cocktailDTO = new CocktailDTO();
         cocktailDTO.setCocktailId(cocktail.getCocktailId());
         cocktailDTO.setGlassType(cocktail.getGlassType());
@@ -109,7 +109,7 @@ public class AppUtils {
     }
 
     //Ingredient
-    public Set<IngredientDTO> convertToIngredientDTO (Set<Ingredient> ingredients){
+    private Set<IngredientDTO> convertToIngredientDTO(Set<Ingredient> ingredients){
         Set<IngredientDTO> ingredientDTOS = new HashSet<>();
         for(Ingredient ingredient : ingredients) {
             IngredientDTO ingredientDTO = new IngredientDTO();

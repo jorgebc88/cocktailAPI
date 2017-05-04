@@ -2,16 +2,13 @@ package com.cocktail.repository;
 
 import com.cocktail.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -31,7 +28,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         }
 
     private Set<GrantedAuthority> getAuthorities(User user){
-        Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+        Set<GrantedAuthority> authorities = new HashSet<>();
         GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(user.getRole());
         authorities.add(grantedAuthority);
         return authorities;

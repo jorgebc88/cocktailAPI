@@ -35,8 +35,7 @@ public class DrinkService {
         Iterable<Drink> drinkIterable = this.drinkRepository.findAll();
         Set<Drink> drinks = new HashSet<>();
         drinkIterable.iterator().forEachRemaining(drinks::add);
-        Set<DrinkDTO> drinkDTOs = appUtils.ConvertToDrinksDTO(drinks);
-        return drinkDTOs;
+        return appUtils.ConvertToDrinksDTO(drinks);
     }
 
     public DrinkDTO getDrinkById(Long drinkId) {

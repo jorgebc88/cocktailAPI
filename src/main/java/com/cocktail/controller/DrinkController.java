@@ -4,10 +4,12 @@ import com.cocktail.DTO.DrinkDTO;
 import com.cocktail.service.DrinkService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 @RestController
@@ -17,27 +19,24 @@ public class DrinkController {
     @Autowired
     private DrinkService drinkService;
 
-    private final Logger LOGGER = Logger.getLogger(CocktailController.class);
+    private final Logger LOGGER = Logger.getLogger(DrinkController.class);
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public DrinkDTO createDrink (HttpServletResponse httpServletResponse, @RequestBody DrinkDTO drinkDTO){
+    public DrinkDTO createDrink(@RequestBody DrinkDTO drinkDTO) {
         LOGGER.info("New Drink created.");
         boolean insertState = this.drinkService.insertDrink(drinkDTO);
         return insertState ? drinkDTO : null;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public Set<DrinkDTO> getDrinks (HttpServletResponse httpServletResponse){
+    public Set<DrinkDTO> getDrinks() {
         LOGGER.info("Get drinks.");
-        Set<DrinkDTO> drinkDTOs = this.drinkService.getDrinks();
-        return drinkDTOs;
+        return this.drinkService.getDrinks();
     }
 
     @RequestMapping(value = "/{drinkId}", method = RequestMethod.GET)
-    public DrinkDTO getDrinkById (HttpServletResponse httpServletResponse, @PathVariable("drinkId") Long drinkId){
+    public DrinkDTO getDrinkById(@PathVariable("drinkId") Long drinkId) {
         LOGGER.info("Get drink by id.");
-        DrinkDTO drinkDTO = this.drinkService.getDrinkById(drinkId);
-        return drinkDTO;
+        return this.drinkService.getDrinkById(drinkId);
     }
-
 }
