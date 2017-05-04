@@ -5,6 +5,7 @@ import com.cocktail.Util.AppUtils;
 import com.cocktail.entity.Drink;
 import com.cocktail.repository.DrinkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -29,6 +30,7 @@ public class DrinkService {
         return true;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Set<DrinkDTO> getDrinks() {
         Iterable<Drink> drinkIterable = this.drinkRepository.findAll();
         Set<Drink> drinks = new HashSet<>();

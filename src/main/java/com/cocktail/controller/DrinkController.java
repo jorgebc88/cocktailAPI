@@ -33,7 +33,6 @@ public class DrinkController {
         return drinkDTOs;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/{drinkId}", method = RequestMethod.GET)
     public DrinkDTO getDrinkById (HttpServletResponse httpServletResponse, @PathVariable("drinkId") Long drinkId){
         LOGGER.info("Get drink by id.");
