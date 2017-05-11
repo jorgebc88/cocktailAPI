@@ -1,6 +1,7 @@
-package com.cocktail.repository;
+package com.cocktail.security;
 
 import com.cocktail.entity.User;
+import com.cocktail.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

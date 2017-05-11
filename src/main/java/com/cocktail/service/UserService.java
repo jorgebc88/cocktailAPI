@@ -1,8 +1,8 @@
 package com.cocktail.service;
 
-import com.cocktail.Util.AppUtils;
 import com.cocktail.entity.User;
 import com.cocktail.repository.UserRepository;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -13,20 +13,20 @@ import java.util.Set;
 @Service
 public class UserService {
 
+    private final Logger LOGGER = Logger.getLogger(UserService.class);
+
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private AppUtils appUtils;
-
     public boolean insertUser(User user) {
+        boolean inserted = true;
         try {
-//            Drink drink = appUtils.convertDrinkDTO(drinkDTO);
             this.userRepository.save(user);
-        }catch (Exception e){
-            return false;
+        } catch (Exception e) {
+            LOGGER.error("There was an error trying to save a new User.", e);
+            inserted = false;
         }
-        return true;
+        return inserted;
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -34,7 +34,6 @@ public class UserService {
         Iterable<User> userIterable = this.userRepository.findAll();
         Set<User> users = new HashSet<>();
         userIterable.iterator().forEachRemaining(users::add);
-//        Set<DrinkDTO> drinkDTOs = appUtils.ConvertToDrinksDTO(drinks);
         return users;
     }
 
